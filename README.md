@@ -71,7 +71,7 @@ Remove any trips that have missing or corrupt data.
 Derive new columns such as trip duration and average speed.
 Aggregate data to calculate total trips and average fare per day.
 
-# Function to download a file
+#Function to download a file
 
 import requests
 import re
@@ -97,7 +97,7 @@ def download_file(url, destination, retries=5, backoff_factor=0.3):
             time.sleep(backoff_factor * (2 ** attempt))  # Exponential backoff
     return False
 
-# Function to get all CSV file links for the year 2019
+#Function to get all CSV file links for the year 2019
 def get_csv_links(url, year):
     response = requests.get(url)
     response.raise_for_status()
@@ -106,7 +106,7 @@ def get_csv_links(url, year):
     csv_links = [link for link in csv_links if f'{year}' in link and link.endswith('.csv')]
     return csv_links
 
-# Function to clean data and derive new columns
+#Function to clean data and derive new columns
 def process_data(file_path):
     df = pd.read_csv(file_path)
     
@@ -127,7 +127,8 @@ def process_data(file_path):
     
     return aggregated_data
 
-# Main function
+#Main function
+
 def main():
     base_url = 'https://www.nyc.gov'
     page_url = 'https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page'
@@ -160,7 +161,6 @@ Requirements:
 Design and implement a schema suitable for querying trip metrics.
 Use SQL to load data into the database efficiently.
 
-#
 #Schema Design
 
 vendor_id (integer)
@@ -246,41 +246,42 @@ Develop SQL queries to answer the following questions:
     What are the trends in usage over the year?
 Create visualizations to represent the findings.
 
-# --Peak Hours for Taxi Usage
+#--Peak Hours for Taxi Usage
 SELECT EXTRACT(HOUR FROM tpep_pickup_datetime) AS hour, COUNT(*) AS total_trips
 FROM taxi_data
 GROUP BY EXTRACT(HOUR FROM tpep_pickup_datetime)
 ORDER BY total_trips DESC;
 
-# --How Passenger Count Affects the Trip Fare
+#--How Passenger Count Affects the Trip Fare
 SELECT passenger_count, AVG(total_amount) AS average_fare
 FROM taxi_data
 GROUP BY passenger_count
 ORDER BY passenger_count;
 
-# --Trends in Usage Over the Year
+#--Trends in Usage Over the Year
 SELECT DATE(tpep_pickup_datetime) AS date, COUNT(*) AS total_trips
 FROM taxi_data
 GROUP BY DATE(tpep_pickup_datetime)
 ORDER BY date;
 
-# --visualization using python
+#--visualization using python
 
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sqlalchemy import create_engine
 
-# Load the aggregated data into a DataFrame
+#Load the aggregated data into a DataFrame
 df = pd.read_csv('aggregated_data_2019.csv')
 
-# Create a connection to the SQLite database (or any other supported database)
+#Create a connection to the SQLite database (or any other supported database)
 engine = create_engine('sqlite:///taxi_data.db')
 
-# Load the CSV data into the database for SQL querying
+#Load the CSV data into the database for SQL querying
 df.to_sql('taxi_data', engine, if_exists='replace', index=False)
 
-# Query to find peak hours for taxi usage
+#Query to find peak hours for taxi usage
+
 peak_hours_query = """
 SELECT EXTRACT(HOUR FROM tpep_pickup_datetime) AS hour, COUNT(*) AS total_trips
 FROM taxi_data
@@ -289,7 +290,8 @@ ORDER BY total_trips DESC;
 """
 peak_hours = pd.read_sql_query(peak_hours_query, engine)
 
-# Query to find how passenger count affects the trip fare
+#Query to find how passenger count affects the trip fare
+
 passenger_fare_query = """
 SELECT passenger_count, AVG(total_amount) AS average_fare
 FROM taxi_data
@@ -298,7 +300,8 @@ ORDER BY passenger_count;
 """
 passenger_fare = pd.read_sql_query(passenger_fare_query, engine)
 
-# Query to find trends in usage over the year
+#Query to find trends in usage over the year
+
 trends_query = """
 SELECT DATE(tpep_pickup_datetime) AS date, COUNT(*) AS total_trips
 FROM taxi_data
@@ -307,7 +310,7 @@ ORDER BY date;
 """
 trends = pd.read_sql_query(trends_query, engine)
 
-# Visualization for peak hours for taxi usage
+#Visualization for peak hours for taxi usage
 plt.figure(figsize=(12, 6))
 sns.barplot(x='hour', y='total_trips', data=peak_hours, palette='viridis')
 plt.title('Peak Hours for Taxi Usage')
@@ -316,7 +319,7 @@ plt.ylabel('Total Trips')
 plt.xticks(rotation=45)
 plt.show()
 
-# Visualization for passenger count vs. average fare
+#Visualization for passenger count vs. average fare
 plt.figure(figsize=(12, 6))
 sns.barplot(x='passenger_count', y='average_fare', data=passenger_fare, palette='coolwarm')
 plt.title('Passenger Count vs. Average Fare')
@@ -325,7 +328,7 @@ plt.ylabel('Average Fare ($)')
 plt.xticks(rotation=45)
 plt.show()
 
-# Visualization for trends in usage over the year
+#Visualization for trends in usage over the year
 plt.figure(figsize=(14, 7))
 plt.plot(trends['date'], trends['total_trips'], marker='o', linestyle='-')
 plt.title('Trends in Taxi Usage Over the Year')

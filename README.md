@@ -247,18 +247,21 @@ Develop SQL queries to answer the following questions:
 Create visualizations to represent the findings.
 
 #--Peak Hours for Taxi Usage
+
 SELECT EXTRACT(HOUR FROM tpep_pickup_datetime) AS hour, COUNT(*) AS total_trips
 FROM taxi_data
 GROUP BY EXTRACT(HOUR FROM tpep_pickup_datetime)
 ORDER BY total_trips DESC;
 
 #--How Passenger Count Affects the Trip Fare
+
 SELECT passenger_count, AVG(total_amount) AS average_fare
 FROM taxi_data
 GROUP BY passenger_count
 ORDER BY passenger_count;
 
 #--Trends in Usage Over the Year
+
 SELECT DATE(tpep_pickup_datetime) AS date, COUNT(*) AS total_trips
 FROM taxi_data
 GROUP BY DATE(tpep_pickup_datetime)
@@ -272,12 +275,15 @@ import seaborn as sns
 from sqlalchemy import create_engine
 
 #Load the aggregated data into a DataFrame
+
 df = pd.read_csv('aggregated_data_2019.csv')
 
-#Create a connection to the SQLite database (or any other supported database)
+#Create a connection to the SQLite database
+
 engine = create_engine('sqlite:///taxi_data.db')
 
 #Load the CSV data into the database for SQL querying
+
 df.to_sql('taxi_data', engine, if_exists='replace', index=False)
 
 #Query to find peak hours for taxi usage
@@ -311,6 +317,7 @@ ORDER BY date;
 trends = pd.read_sql_query(trends_query, engine)
 
 #Visualization for peak hours for taxi usage
+
 plt.figure(figsize=(12, 6))
 sns.barplot(x='hour', y='total_trips', data=peak_hours, palette='viridis')
 plt.title('Peak Hours for Taxi Usage')
@@ -320,6 +327,7 @@ plt.xticks(rotation=45)
 plt.show()
 
 #Visualization for passenger count vs. average fare
+
 plt.figure(figsize=(12, 6))
 sns.barplot(x='passenger_count', y='average_fare', data=passenger_fare, palette='coolwarm')
 plt.title('Passenger Count vs. Average Fare')
@@ -329,6 +337,7 @@ plt.xticks(rotation=45)
 plt.show()
 
 #Visualization for trends in usage over the year
+
 plt.figure(figsize=(14, 7))
 plt.plot(trends['date'], trends['total_trips'], marker='o', linestyle='-')
 plt.title('Trends in Taxi Usage Over the Year')

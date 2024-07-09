@@ -4,7 +4,8 @@
 Task: Automate the downloading of the dataset from the Year 2019.
 Requirements:Write a script that downloads CSV files from the Year 2019.Ensure the script can handle network errors and retries.
 
-# Function to download a file
+#Function to download a file
+
 import requests
 import re
 import time
@@ -28,7 +29,8 @@ def download_file(url, destination, retries=5, backoff_factor=0.3):
             time.sleep(backoff_factor * (2 ** attempt))  # Exponential backoff
     return False
 
-# Function to get all CSV file links for the year 2019
+#Function to get all CSV file links for the year 2019
+
 def get_csv_links(url, year):
     response = requests.get(url)
     response.raise_for_status()      
@@ -37,7 +39,8 @@ def get_csv_links(url, year):
     csv_links = [link for link in csv_links if f'{year}' in link and link.endswith('.csv')]
     return csv_links
 
-# Main function
+#Main function
+
 def main():
     base_url = 'https://www.nyc.gov'
     page_url = 'https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page'

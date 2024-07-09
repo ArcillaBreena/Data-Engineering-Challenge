@@ -1,6 +1,6 @@
 # Data-Engineering-Challenge
 
-# Data Extraction
+# 1.Data Extraction
 Task: Automate the downloading of the dataset from the Year 2019.
 Requirements:Write a script that downloads CSV files from the Year 2019.Ensure the script can handle network errors and retries.
 
@@ -10,7 +10,7 @@ import re
 import time
 import os
 
-# Function to download a file
+#Function to download a file
 def download_file(url, destination, retries=5, backoff_factor=0.3):
     attempt = 0
     while attempt < retries:
@@ -28,7 +28,7 @@ def download_file(url, destination, retries=5, backoff_factor=0.3):
             time.sleep(backoff_factor * (2 ** attempt))  # Exponential backoff
     return False
 
-# Function to get all CSV file links for the year 2019
+#Function to get all CSV file links for the year 2019
 def get_csv_links(url, year):
     response = requests.get(url)
     response.raise_for_status()      
@@ -59,7 +59,7 @@ def main():
 if __name__ == "__main__":
     main()
     
- # Data Processing
+ # 2.Data Processing
 
 Task: Clean and transform the data using Python and Pandas.
  Requirements:
@@ -148,3 +148,35 @@ def main():
         if download_file(full_url, file_name):
             aggregated_data = process_data(file_name)
             all_aggregated_data = pd.concat([all_aggregated
+
+# 3.Data Analysis and Reporting
+
+Task: Generate insights and reports from the database.
+
+Requirements:
+
+Develop SQL queries to answer the following questions:
+    What are the peak hours for taxi usage?
+    How does passenger count affect the trip fare?
+    What are the trends in usage over the year?
+Create visualizations to represent the findings.
+
+# --Peak Hours for Taxi Usage
+SELECT EXTRACT(HOUR FROM tpep_pickup_datetime) AS hour, COUNT(*) AS total_trips
+FROM taxi_data
+GROUP BY EXTRACT(HOUR FROM tpep_pickup_datetime)
+ORDER BY total_trips DESC;
+
+#--How Passenger Count Affects the Trip Fare
+SELECT passenger_count, AVG(total_amount) AS average_fare
+FROM taxi_data
+GROUP BY passenger_count
+ORDER BY passenger_count;
+
+#--Trends in Usage Over the Year
+SELECT DATE(tpep_pickup_datetime) AS date, COUNT(*) AS total_trips
+FROM taxi_data
+GROUP BY DATE(tpep_pickup_datetime)
+ORDER BY date;
+
+

@@ -1,11 +1,9 @@
 # Data-Engineering-Challenge
 
 # Data Extraction
-# Task: Automate the downloading of the dataset from the Year 2019.
+Task: Automate the downloading of the dataset from the Year 2019.
 
-# Requirements:
-
-# Write a script that downloads CSV files from the Year 2019.Ensure the script can handle network errors and retries.
+# Requirements:Write a script that downloads CSV files from the Year 2019.Ensure the script can handle network errors and retries.
 
 import requests
 import re

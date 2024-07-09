@@ -2,9 +2,9 @@
 
 # Data Extraction
 Task: Automate the downloading of the dataset from the Year 2019.
+Requirements:Write a script that downloads CSV files from the Year 2019.Ensure the script can handle network errors and retries.
 
-# Requirements:Write a script that downloads CSV files from the Year 2019.Ensure the script can handle network errors and retries.
-
+# 
 import requests
 import re
 import time
@@ -62,14 +62,13 @@ if __name__ == "__main__":
     # Data Processing
 
 Task: Clean and transform the data using Python and Pandas.
-
-# Requirements:
+ Requirements:
 
 Remove any trips that have missing or corrupt data.
 Derive new columns such as trip duration and average speed.
 Aggregate data to calculate total trips and average fare per day.
 
-# code 
+#  
 import requests
 import re
 import time
